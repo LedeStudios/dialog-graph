@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright Lede Studios. All Rights Reserved.
 
 #include "Dialog.h"
 #include "Modules/ModuleManager.h"
