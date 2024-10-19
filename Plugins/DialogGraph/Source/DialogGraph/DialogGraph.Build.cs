@@ -10,7 +10,7 @@ public class DialogGraph : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				// ... add public include paths required here ...
+				"DialogGraph/"
 			}
 			);
 				
@@ -26,7 +26,11 @@ public class DialogGraph : ModuleRules
 			new string[]
 			{
 				"Core",
-				// ... add other public dependencies that you statically link with here ...
+
+				// Graph
+				"GraphEditor", 
+				"UnrealEd", 
+				"BlueprintGraph"
 			}
 			);
 			
