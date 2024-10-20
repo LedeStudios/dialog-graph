@@ -26,11 +26,6 @@ public class DialogGraph : ModuleRules
 			new string[]
 			{
 				"Core",
-
-				// Graph
-				"GraphEditor", 
-				"UnrealEd", 
-				"BlueprintGraph"
 			}
 			);
 			
@@ -42,7 +37,9 @@ public class DialogGraph : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				// ... add private dependencies that you statically link with here ...	
+				"GraphEditor", 
+				"UnrealEd", 
+				"BlueprintGraph"
 			}
 			);
 		

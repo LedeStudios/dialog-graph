@@ -1,6 +1,6 @@
 // Copyright Lede Studios. All Rights Reserved.
 
-#include "DialogGraph.h"
+#include "DialogGraphEditor.h"
 
 #define LOCTEXT_NAMESPACE "FDialogGraphModule"
 

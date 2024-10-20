@@ -10,7 +10,7 @@ public class DialogGraphEditor : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				"DialogGraph/"
+				"DialogGraphEditor/"
 			}
 			);
 				
@@ -26,11 +26,6 @@ public class DialogGraphEditor : ModuleRules
 			new string[]
 			{
 				"Core",
-
-				// Graph
-				"GraphEditor", 
-				"UnrealEd", 
-				"BlueprintGraph"
 			}
 			);
 			
@@ -42,7 +37,9 @@ public class DialogGraphEditor : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				// ... add private dependencies that you statically link with here ...	
+				"GraphEditor", 
+				"UnrealEd", 
+				"BlueprintGraph"
 			}
 			);
 		

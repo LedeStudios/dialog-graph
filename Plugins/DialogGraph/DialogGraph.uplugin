@@ -19,6 +19,11 @@
 			"Name": "DialogGraph",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "DialogGraphEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
 		}
 	]
 }
