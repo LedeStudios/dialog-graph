@@ -39,7 +39,8 @@ public class DialogGraphEditor : ModuleRules
 				"SlateCore",
 				"GraphEditor", 
 				"UnrealEd", 
-				"BlueprintGraph"
+				"BlueprintGraph", 
+				"DialogGraph" // Plugin Runtime Module
 			}
 			);
 		
