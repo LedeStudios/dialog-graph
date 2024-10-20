@@ -3,7 +3,7 @@
 #include "DialogGraphEditor.h"
 
 #include "IAssetTools.h"
-#include "AssetTypeAction/AssetTypeActions_Dialog.h"
+#include "Dialog/DialogTypeAction.h"
 
 #define LOCTEXT_NAMESPACE "FDialogGraphModule"
 
@@ -13,9 +13,9 @@ void FDialogGraphEditorModule::StartupModule()
 	IAssetTools& AssetToolsModule =  FAssetToolsModule::GetModule().Get();
 
 	// Register Dialog Asset
-	const uint32 AssetCategoryBit = AssetToolsModule.RegisterAdvancedAssetCategory(
-		FName(TEXT("Dialog")), LOCTEXT("DialogAssetCategory", "Dialogs"));
-	const TSharedPtr<FAssetTypeActions_Dialog> DialogAssetTypeActions = MakeShareable(new FAssetTypeActions_Dialog(AssetCategoryBit));
+	const EAssetTypeCategories::Type DialogCategory = AssetToolsModule.RegisterAdvancedAssetCategory(
+		FName(TEXT("Dialogs")), FText::FromString("Dialogs"));
+	const TSharedPtr<FDialogTypeAction> DialogAssetTypeActions = MakeShareable(new FDialogTypeAction(DialogCategory));
 	AssetToolsModule.RegisterAssetTypeActions(DialogAssetTypeActions.ToSharedRef());
 	
 	UE_LOG(LogTemp, Warning, TEXT("Load Dialog Graph Editor Plugin."))

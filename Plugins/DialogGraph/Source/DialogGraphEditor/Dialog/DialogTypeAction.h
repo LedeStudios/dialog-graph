@@ -9,14 +9,14 @@
 /**
  * 
  */
-class DIALOGGRAPHEDITOR_API FAssetTypeActions_Dialog : public FAssetTypeActions_Base
+class DIALOGGRAPHEDITOR_API FDialogTypeAction : public FAssetTypeActions_Base
 {
 
 protected:
-	uint32 Category;
+	EAssetTypeCategories::Type Category;
 	
 public:
-	explicit FAssetTypeActions_Dialog(uint32 InCategory);
+	explicit FDialogTypeAction(EAssetTypeCategories::Type InCategory);
 	
 public:
 	virtual FText GetName() const override;

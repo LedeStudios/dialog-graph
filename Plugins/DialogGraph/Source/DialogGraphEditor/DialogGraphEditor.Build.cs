@@ -40,6 +40,8 @@ public class DialogGraphEditor : ModuleRules
 				"GraphEditor", 
 				"UnrealEd", 
 				"BlueprintGraph", 
+				"EditorStyle",
+				
 				"DialogGraph" // Plugin Runtime Module
 			}
 			);
