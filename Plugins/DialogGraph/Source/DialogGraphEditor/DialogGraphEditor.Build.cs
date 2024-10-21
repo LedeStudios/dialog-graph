@@ -42,6 +42,7 @@ public class DialogGraphEditor : ModuleRules
 				"BlueprintGraph", 
 				"EditorStyle",
 				"PropertyEditor",
+				"Projects",
 				
 				"DialogGraph" // Plugin Runtime Module
 			}
