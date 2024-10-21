@@ -66,3 +66,14 @@ void UDialogGraphNode::GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeCont
 		}))
 	);
 }
+
+UEdGraphPin* UDialogGraphNode::CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name)
+{
+	const FName Category = (Direction == EGPD_Input) ? TEXT("Inputs") : TEXT("Outputs");
+	const FName SubCategory = TEXT("DialogPin");
+
+	UEdGraphPin* Pin = CreatePin(Direction, Category, Name);
+	Pin->PinType.PinSubCategory = SubCategory;
+
+	return Pin;
+}

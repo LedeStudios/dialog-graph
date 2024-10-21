@@ -13,6 +13,7 @@ class DIALOGGRAPHEDITOR_API UDialogGraphSchema : public UEdGraphSchema
 
 public:
 	virtual void GetGraphContextActions(FGraphContextMenuBuilder& ContextMenuBuilder) const override;
+	virtual const FPinConnectionResponse CanCreateConnection(const UEdGraphPin* A, const UEdGraphPin* B) const override;
 	
 };
 
