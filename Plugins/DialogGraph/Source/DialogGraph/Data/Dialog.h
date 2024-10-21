@@ -8,7 +8,7 @@
 
 class UDialogNode;
 
-UCLASS()
+UCLASS(BlueprintType)
 class DIALOGGRAPH_API UDialog : public UObject
 {
 	GENERATED_BODY()
@@ -19,8 +19,7 @@ public:
 	
 };
 
-
-UCLASS()
+UCLASS(BlueprintType)
 class UDialogNode : public UObject
 {
 	GENERATED_BODY()
@@ -31,9 +30,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Node")
 	FText Line;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Node")
-	TObjectPtr<UDialogNode> NextNode;
 	
 };
+
+
+
+
 

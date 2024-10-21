@@ -12,7 +12,7 @@ class DIALOGGRAPHEDITOR_API FDialogTabFactory : public FWorkflowTabFactory
 {
 
 protected:
-	TWeakPtr<FDialogAssetEditorApplication> Editor;
+	TWeakPtr<FDialogAssetEditorApplication> App;
 	
 public:
 	explicit FDialogTabFactory(const TSharedPtr<FDialogAssetEditorApplication>& InApp);
