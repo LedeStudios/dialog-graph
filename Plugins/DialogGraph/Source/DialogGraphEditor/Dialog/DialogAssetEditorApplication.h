@@ -22,6 +22,11 @@ public:
 
 	void InitEditor(const EToolkitMode::Type Mode, const TSharedPtr<IToolkitHost>& InitToolkitHost, UObject* InObject);
 
+public:
+	void UpdateWorkingAssetFromGraph() const;
+
+	void UpdateEditorGraphFromWorkingAsset() const;
+	
 	UDialog* GetWorkingAsset();
 
 	UEdGraph* GetWorkingGraph();
@@ -41,5 +46,11 @@ public:
 	virtual void OnToolkitHostingStarted(const TSharedRef<IToolkit>& Toolkit) override;
 
 	virtual void OnToolkitHostingFinished(const TSharedRef<IToolkit>& Toolkit) override;
+
+public:
+	virtual void OnClose() override;
+
+	FDelegateHandle GraphChangeHandler;
+	void OnGraphChanged(const FEdGraphEditAction& EditAction);
 	
 };

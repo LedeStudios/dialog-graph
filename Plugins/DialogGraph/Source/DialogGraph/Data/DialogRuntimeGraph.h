@@ -7,7 +7,7 @@
 #include "DialogRuntimeGraph.generated.h"
 
 UCLASS()
-class UDialogPin : public UObject
+class DIALOGGRAPH_API UDialogPin : public UObject
 {
 	GENERATED_BODY()
 
@@ -24,7 +24,7 @@ public:
 };
 
 UCLASS()
-class UDialogNode : public UObject
+class DIALOGGRAPH_API UDialogNode : public UObject
 {
 	GENERATED_BODY()
 
@@ -41,7 +41,7 @@ public:
 };
 
 UCLASS()
-class UDialogGraph : public UObject
+class DIALOGGRAPH_API UDialogGraph : public UObject
 {
 	GENERATED_BODY()
 
