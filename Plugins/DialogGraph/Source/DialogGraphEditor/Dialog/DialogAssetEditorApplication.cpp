@@ -102,7 +102,7 @@ void FDialogAssetEditorApplication::UpdateWorkingAssetFromGraph() const
 
 void FDialogAssetEditorApplication::UpdateEditorGraphFromWorkingAsset() const
 {
-	if (WorkingAsset == nullptr)
+	if (WorkingAsset->Graph == nullptr)
 	{
 		return;
 	}
@@ -113,7 +113,7 @@ void FDialogAssetEditorApplication::UpdateEditorGraphFromWorkingAsset() const
 	// Load Nodes
 	for (UDialogNode* RuntimeNode : WorkingAsset->Graph->Nodes)
 	{
-		UDialogGraphNode* Node = NewObject<UDialogGraphNode>(WorkingAsset);
+		UDialogGraphNode* Node = NewObject<UDialogGraphNode>(WorkingGraph);
 		Node->CreateNewGuid();
 		Node->NodePosX = RuntimeNode->Position.X;
 		Node->NodePosY = RuntimeNode->Position.Y;
