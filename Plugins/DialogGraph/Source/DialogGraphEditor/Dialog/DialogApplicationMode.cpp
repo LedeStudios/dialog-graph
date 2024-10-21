@@ -16,9 +16,11 @@ FDialogApplicationMode::FDialogApplicationMode(const TSharedPtr<FDialogAssetEdit
 
 	TabLayout = FTabManager::NewLayout("DialogApplicationMode_Layout_v1")
 	->AddArea(
-		FTabManager::NewPrimaryArea()->SetOrientation(Orient_Vertical)
+		FTabManager::NewPrimaryArea()
+		->SetOrientation(Orient_Vertical)
 		->Split(
 			FTabManager::NewSplitter()
+			->SetOrientation(Orient_Horizontal)
 			->Split(
 				FTabManager::NewStack()
 				->SetSizeCoefficient(0.75f)
