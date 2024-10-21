@@ -16,25 +16,17 @@ FDialogGraphTabFactory::FDialogGraphTabFactory(const TSharedPtr<FDialogAssetEdit
 
 TSharedRef<SWidget> FDialogGraphTabFactory::CreateTabBody(const FWorkflowTabSpawnInfo& Info) const
 {
-	TSharedPtr<FDialogAssetEditorApplication> PinApp = App.Pin();
-	FPropertyEditorModule& PropertyEditor = FModuleManager::LoadModuleChecked<FPropertyEditorModule>(TEXT("PropertyEditor"));
+	const TSharedPtr<FDialogAssetEditorApplication> PinApp = App.Pin();
 
-	FDetailsViewArgs ViewArgs;
-	ViewArgs.bAllowSearch = false;
-	ViewArgs.bHideSelectionTip = true;
-	ViewArgs.bLockable = false;
-	ViewArgs.bSearchInitialKeyFocus = true;
-	ViewArgs.bUpdatesFromSelection = false;
-	ViewArgs.NotifyHook = nullptr;
-	ViewArgs.bShowOptions = true;
-	ViewArgs.bShowModifiedPropertiesOption = false;
-	ViewArgs.bShowScrollBar = false;
-
-	const TSharedPtr<IDetailsView> View = PropertyEditor.CreateDetailView(ViewArgs);
-	View->SetObject(PinApp->GetWorkingAsset());
-	
 	return SNew(SVerticalBox)
-	+ SVerticalBox::Slot().FillHeight(1.f).HAlign(HAlign_Fill) [ View.ToSharedRef() ];
+	+ SVerticalBox::Slot()
+	.FillHeight(1.f)
+	.HAlign(HAlign_Fill)
+	[
+		SNew(SGraphEditor)
+		.IsEditable(true)
+		.GraphToEdit(PinApp->GetWorkingGraph())
+	];
 }
 
 FText FDialogGraphTabFactory::GetTabToolTipText(const FWorkflowTabSpawnInfo& Info) const

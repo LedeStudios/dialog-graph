@@ -14,7 +14,8 @@ class DIALOGGRAPHEDITOR_API FDialogAssetEditorApplication : public FWorkflowCent
 
 protected:
 	TObjectPtr<UDialog> WorkingAsset;
-	
+
+	TObjectPtr<UEdGraph> WorkingGraph;
 
 public:
 	virtual void RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager) override;
@@ -22,6 +23,8 @@ public:
 	void InitEditor(const EToolkitMode::Type Mode, const TSharedPtr<IToolkitHost>& InitToolkitHost, UObject* InObject);
 
 	UDialog* GetWorkingAsset();
+
+	UEdGraph* GetWorkingGraph();
 	
 public:
 	virtual FName GetToolkitFName() const override;

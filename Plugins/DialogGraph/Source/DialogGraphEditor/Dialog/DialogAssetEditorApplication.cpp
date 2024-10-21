@@ -4,7 +4,9 @@
 #include "DialogAssetEditorApplication.h"
 
 #include "DialogApplicationMode.h"
+#include "DialogGraphSchema.h"
 #include "DialogGraph/Data/Dialog.h"
+#include "Kismet2/BlueprintEditorUtils.h"
 
 void FDialogAssetEditorApplication::RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager)
 {
@@ -19,6 +21,9 @@ void FDialogAssetEditorApplication::InitEditor(const EToolkitMode::Type Mode,
 
 	WorkingAsset = Cast<UDialog>(InObject);
 
+	WorkingGraph = FBlueprintEditorUtils::CreateNewGraph(
+		WorkingAsset, NAME_None, UEdGraph::StaticClass(), UDialogGraphSchema::StaticClass());
+
 	// Init Editor
 	InitAssetEditor(Mode, InitToolkitHost, TEXT("DialogEditor"),
 		FTabManager::FLayout::NullLayout, true, true, ObjectsToEdit);
@@ -31,6 +36,11 @@ void FDialogAssetEditorApplication::InitEditor(const EToolkitMode::Type Mode,
 UDialog* FDialogAssetEditorApplication::GetWorkingAsset()
 {
 	return WorkingAsset;
+}
+
+UEdGraph* FDialogAssetEditorApplication::GetWorkingGraph()
+{
+	return WorkingGraph;
 }
 
 FName FDialogAssetEditorApplication::GetToolkitFName() const
@@ -50,7 +60,7 @@ FString FDialogAssetEditorApplication::GetWorldCentricTabPrefix() const
 
 FLinearColor FDialogAssetEditorApplication::GetWorldCentricTabColorScale() const
 {
-	return FLinearColor(0.988f, 0.012f, 0.498f, 0.5f);
+	return FLinearColor(FColor::FromHex("#FC037F"));
 }
 
 FString FDialogAssetEditorApplication::GetDocumentationLink() const

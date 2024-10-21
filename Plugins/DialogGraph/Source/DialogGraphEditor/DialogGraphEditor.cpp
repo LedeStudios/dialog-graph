@@ -35,6 +35,21 @@ void FDialogGraphEditorModule::StartupModule()
 		FVector2D(512.f, 512.f));
 	DialogStyleSet->Set(TEXT("ClassIcon.Dialog"), IconBrush);
 
+	// FSlateImageBrush* NodeAddBrush = new FSlateImageBrush(
+	// DialogStyleSet->RootToContentDir(TEXT("add"), TEXT(".png")),
+	// FVector2D(512.f, 512.f));
+	// DialogStyleSet->Set(TEXT("DialogEditor.NodeAppPinIcon"), NodeAddBrush);
+	//
+	// FSlateImageBrush* NodeDeleteBrush = new FSlateImageBrush(
+	// DialogStyleSet->RootToContentDir(TEXT("delete"), TEXT(".png")),
+	// FVector2D(512.f, 512.f));
+	// DialogStyleSet->Set(TEXT("DialogEditor.NodeDeletePinIcon"), NodeDeleteBrush);
+	//
+	// FSlateImageBrush* NodeDeleteNodeBrush = new FSlateImageBrush(
+	// DialogStyleSet->RootToContentDir(TEXT("pin_delete"), TEXT(".png")),
+	// FVector2D(512.f, 512.f));
+	// DialogStyleSet->Set(TEXT("DialogEditor.NodeDeleteNodeIcon"), NodeDeleteNodeBrush);
+
 	FSlateStyleRegistry::RegisterSlateStyle(*DialogStyleSet);
 	
 	UE_LOG(LogTemp, Warning, TEXT("Load Dialog Graph Editor Plugin."))
