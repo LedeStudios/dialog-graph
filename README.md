@@ -1,8 +1,8 @@
 # Table of Contents
-1. [Project Instruction](Project-Features)
-2. [Project Features](Dialog-Events)
-3. [How to Apply the Plugin](How-to-Apply-the-Plugin)
-4. [How to Contribute](How-to-Contribute)
+1. [Project Instruction](#project-features)
+2. [Project Features](#dialog-events)
+3. [How to Apply the Plugin](#how-to-apply-the-plugin)
+4. [How to Contribute](#how-to-contribute)
 
 # Project Introduction
 `Dialog-Graph` is a plugin designed to help you easily implement dialogue systems in Unreal Engine 5. 
