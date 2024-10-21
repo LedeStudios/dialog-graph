@@ -44,9 +44,8 @@ UEdGraphNode* FNewNodeAction::PerformAction(UEdGraph* ParentGraph, UEdGraphPin* 
 	Node->NodePosX = Location.X;
 	Node->NodePosY = Location.Y;
 
-	UEdGraphPin* InputPin = Node->CreateDialogPin(EGPD_Input, TEXT("Some Input"));
-	Node->CreateDialogPin(EGPD_Output, TEXT("Output 1"));
-	Node->CreateDialogPin(EGPD_Output, TEXT("Output 2"));
+	UEdGraphPin* InputPin = Node->CreateDialogPin(EGPD_Input, TEXT("Input"));
+	Node->CreateDialogPin(EGPD_Output, TEXT("Output"));
 
 	if (FromPin != nullptr)
 	{

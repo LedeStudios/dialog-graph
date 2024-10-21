@@ -33,7 +33,7 @@ void UDialogGraphNode::GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeCont
 		FSlateIcon(),
 		FUIAction(FExecuteAction::CreateLambda([Node]()
 		{
-			Node->CreatePin(EGPD_Output, TEXT("Outputs"), TEXT("Another Output"));
+			Node->CreateDialogPin(EGPD_Output, TEXT("Output"));
 			Node->GetGraph()->NotifyGraphChanged();
 			Node->GetGraph()->Modify();
 		}))
@@ -46,12 +46,15 @@ void UDialogGraphNode::GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeCont
 		FSlateIcon(),
 		FUIAction(FExecuteAction::CreateLambda([Node]()
 		{
-			if (UEdGraphPin* Pin = Node->GetPinAt(Node->Pins.Num() - 1); Pin->Direction != EGPD_Input)
+			if (Node->Pins.Num() > 2) // Input: 1, Output: 1
 			{
-				Node->RemovePin(Pin);
-				Node->GetGraph()->NotifyGraphChanged();
-				Node->GetGraph()->Modify();
-			}
+				if (UEdGraphPin* Pin = Node->GetPinAt(Node->Pins.Num() - 1); Pin->Direction != EGPD_Input)
+				{
+					Node->RemovePin(Pin);
+					Node->GetGraph()->NotifyGraphChanged();
+					Node->GetGraph()->Modify();
+				}
+			} 
 		}))
 	);
 
