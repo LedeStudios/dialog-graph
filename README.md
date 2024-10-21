@@ -3,6 +3,7 @@
 2. [Project Features](#dialog-events)
 3. [How to Apply the Plugin](#how-to-apply-the-plugin)
 4. [How to Contribute](#how-to-contribute)
+5. [Credit](#credit)
 
 # Project Introduction
 `Dialog-Graph` is a plugin designed to help you easily implement dialogue systems in Unreal Engine 5. 
@@ -29,3 +30,6 @@ Details on how to apply the plugin will be provided at a later time.
 
 # How to Contribute
 Guidelines for contributing to the project will be provided at a later time.
+
+# Credit
+<a href="https://www.flaticon.com/free-icons/chat" title="chat icons">Chat icons created by Pixel perfect - Flaticon</a>
