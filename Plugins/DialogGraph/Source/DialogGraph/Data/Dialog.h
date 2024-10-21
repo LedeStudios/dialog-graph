@@ -6,7 +6,8 @@
 #include "UObject/Object.h"
 #include "Dialog.generated.h"
 
-class UDialogNode;
+
+class UDialogGraph;
 
 UCLASS(BlueprintType)
 class DIALOGGRAPH_API UDialog : public UObject
@@ -15,25 +16,12 @@ class DIALOGGRAPH_API UDialog : public UObject
 
 public:
 	UPROPERTY(EditAnywhere, Category="Dialog")
-	TObjectPtr<UDialogNode> Node;
+	FString DialogId;
+	
+	UPROPERTY()
+	TObjectPtr<UDialogGraph> Graph;
 	
 };
-
-UCLASS(BlueprintType)
-class UDialogNode : public UObject
-{
-	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Node")
-	FText Speaker;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Node")
-	FText Line;
-	
-};
-
-
 
 
 
