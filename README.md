@@ -33,7 +33,3 @@ Guidelines for contributing to the project will be provided at a later time.
 
 # Credit
 <a href="https://www.flaticon.com/free-icons/chat" title="chat icons">Chat icons created by Pixel perfect - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/add" title="add icons">Add icons created by reussy - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/trash" title="trash icons">Trash icons created by Freepik - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/location" title="location icons">Location icons created by Freepik - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/location" title="location icons">Location icons created by Pixel perfect - Flaticon</a>
