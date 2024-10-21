@@ -8,14 +8,14 @@
 
 class FDialogAssetEditorApplication;
 
-class DIALOGGRAPHEDITOR_API FDialogTabFactory : public FWorkflowTabFactory
+class DIALOGGRAPHEDITOR_API FDialogGraphTabFactory : public FWorkflowTabFactory
 {
 
 protected:
 	TWeakPtr<FDialogAssetEditorApplication> App;
 	
 public:
-	explicit FDialogTabFactory(const TSharedPtr<FDialogAssetEditorApplication>& InApp);
+	explicit FDialogGraphTabFactory(const TSharedPtr<FDialogAssetEditorApplication>& InApp);
 
 public:
 	virtual TSharedRef<SWidget> CreateTabBody(const FWorkflowTabSpawnInfo& Info) const override;

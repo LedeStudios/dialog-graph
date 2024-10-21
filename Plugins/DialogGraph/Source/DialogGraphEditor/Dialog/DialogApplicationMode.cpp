@@ -4,25 +4,36 @@
 #include "DialogApplicationMode.h"
 
 #include "DialogAssetEditorApplication.h"
-#include "DialogTabFactory.h"
+#include "DialogGraphTabFactory.h"
+#include "DialogPropertyTabFactory.h"
 
 FDialogApplicationMode::FDialogApplicationMode(const TSharedPtr<FDialogAssetEditorApplication>& InApp)
 : FApplicationMode(TEXT("DialogApplicationMode"))
 {
 	App = InApp;
-	Tabs.RegisterFactory(MakeShareable(new FDialogTabFactory(InApp)));
+	Tabs.RegisterFactory(MakeShareable(new FDialogGraphTabFactory(InApp)));
+	Tabs.RegisterFactory(MakeShareable(new FDialogPropertyTabFactory(InApp)));
 
 	TabLayout = FTabManager::NewLayout("DialogApplicationMode_Layout_v1")
 	->AddArea(
 		FTabManager::NewPrimaryArea()->SetOrientation(Orient_Vertical)
 		->Split(
-			FTabManager::NewStack()
-			->AddTab(FName(TEXT("DialogTab")), ETabState::OpenedTab)
+			FTabManager::NewSplitter()
+			->Split(
+				FTabManager::NewStack()
+				->SetSizeCoefficient(0.75f)
+				->AddTab(FName(TEXT("DialogGraphTab")), ETabState::OpenedTab)
+			)
+			->Split(
+				FTabManager::NewStack()
+				->SetSizeCoefficient(0.25f)
+				->AddTab(FName(TEXT("DialogPropertyTab")), ETabState::OpenedTab)
+			)
 		)
 	);
 }
 
-void FDialogApplicationMode::RegisterTabFactories(TSharedPtr<FTabManager> InTabManager)
+void FDialogApplicationMode::RegisterTabFactories(const TSharedPtr<FTabManager> InTabManager)
 {
 	const TSharedPtr<FDialogAssetEditorApplication> PinApp = App.Pin();
 	PinApp->PushTabFactories(Tabs);
