@@ -7,14 +7,22 @@
 #include "WorkflowOrientedApp/WorkflowCentricApplication.h"
 
 
+class UDialog;
+
 class DIALOGGRAPHEDITOR_API FDialogAssetEditorApplication : public FWorkflowCentricApplication, public FEditorUndoClient, public FNotifyHook
 {
+
+protected:
+	TObjectPtr<UDialog> WorkingAsset;
+	
 
 public:
 	virtual void RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager) override;
 
 	void InitEditor(const EToolkitMode::Type Mode, const TSharedPtr<IToolkitHost>& InitToolkitHost, UObject* InObject);
 
+	UDialog* GetWorkingAsset();
+	
 public:
 	virtual FName GetToolkitFName() const override;
 	

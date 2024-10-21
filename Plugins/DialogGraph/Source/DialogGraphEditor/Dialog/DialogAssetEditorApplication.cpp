@@ -4,6 +4,7 @@
 #include "DialogAssetEditorApplication.h"
 
 #include "DialogApplicationMode.h"
+#include "DialogGraph/Data/Dialog.h"
 
 void FDialogAssetEditorApplication::RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager)
 {
@@ -16,6 +17,8 @@ void FDialogAssetEditorApplication::InitEditor(const EToolkitMode::Type Mode,
 	TArray<UObject*> ObjectsToEdit;
 	ObjectsToEdit.Add(InObject);
 
+	WorkingAsset = Cast<UDialog>(InObject);
+
 	// Init Editor
 	InitAssetEditor(Mode, InitToolkitHost, TEXT("DialogEditor"),
 		FTabManager::FLayout::NullLayout, true, true, ObjectsToEdit);
@@ -23,6 +26,11 @@ void FDialogAssetEditorApplication::InitEditor(const EToolkitMode::Type Mode,
 	// Apply App Mode
 	AddApplicationMode(TEXT("DialogApplicationMode"), MakeShareable(new FDialogApplicationMode(SharedThis(this))));
 	SetCurrentMode(TEXT("DialogApplicationMode"));
+}
+
+UDialog* FDialogAssetEditorApplication::GetWorkingAsset()
+{
+	return WorkingAsset;
 }
 
 FName FDialogAssetEditorApplication::GetToolkitFName() const
