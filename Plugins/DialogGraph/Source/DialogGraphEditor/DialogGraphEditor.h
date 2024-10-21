@@ -6,6 +6,10 @@
 
 class FDialogGraphEditorModule : public IModuleInterface
 {
+
+private:
+	TSharedPtr<FSlateStyleSet> DialogStyleSet;
+	
 public:
 
 	/** IModuleInterface implementation */

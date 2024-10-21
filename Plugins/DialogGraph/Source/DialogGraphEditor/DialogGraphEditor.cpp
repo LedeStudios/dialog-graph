@@ -4,6 +4,8 @@
 
 #include "IAssetTools.h"
 #include "Dialog/DialogTypeAction.h"
+#include "Interfaces/IPluginManager.h"
+#include "Styling/SlateStyleRegistry.h"
 
 #define LOCTEXT_NAMESPACE "FDialogGraphModule"
 
@@ -17,14 +19,30 @@ void FDialogGraphEditorModule::StartupModule()
 		FName(TEXT("Dialogs")), FText::FromString("Dialogs"));
 	const TSharedPtr<FDialogTypeAction> DialogAssetTypeActions = MakeShareable(new FDialogTypeAction(DialogCategory));
 	AssetToolsModule.RegisterAssetTypeActions(DialogAssetTypeActions.ToSharedRef());
+
+	// Setup and Register Dialog Style Set
+	DialogStyleSet = MakeShareable(new FSlateStyleSet(TEXT("DialogEditorStyle")));
+	const TSharedPtr<IPlugin> Plugin = IPluginManager::Get().FindPlugin("DialogGraph");
+	DialogStyleSet->SetContentRoot(Plugin->GetContentDir());
+
+	FSlateImageBrush* ThumbnailBrush = new FSlateImageBrush(
+		DialogStyleSet->RootToContentDir(TEXT("dialog"), TEXT(".png")),
+		FVector2D(512.f, 512.f));
+	DialogStyleSet->Set(TEXT("ClassThumbnail.Dialog"), ThumbnailBrush);
+	
+	FSlateImageBrush* IconBrush = new FSlateImageBrush(
+		DialogStyleSet->RootToContentDir(TEXT("dialog"), TEXT(".png")),
+		FVector2D(512.f, 512.f));
+	DialogStyleSet->Set(TEXT("ClassIcon.Dialog"), IconBrush);
+
+	FSlateStyleRegistry::RegisterSlateStyle(*DialogStyleSet);
 	
 	UE_LOG(LogTemp, Warning, TEXT("Load Dialog Graph Editor Plugin."))
 }
 
 void FDialogGraphEditorModule::ShutdownModule()
 {
-	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
-	// we call this function before unloading the module.
+	FSlateStyleRegistry::UnRegisterSlateStyle(*DialogStyleSet);
 }
 
 #undef LOCTEXT_NAMESPACE
