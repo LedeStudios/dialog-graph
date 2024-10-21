@@ -1,8 +1,8 @@
 ﻿// Copyright Lede Studios. All Rights Reserved.
 
 
-#include "DialogAssetEditorApplication.h"
 #include "DialogTabFactory.h"
+#include "DialogAssetEditorApplication.h"
 
 FDialogTabFactory::FDialogTabFactory(const TSharedPtr<FDialogAssetEditorApplication>& InApp)
 : FWorkflowTabFactory(FName("DialogTab"), InApp)
