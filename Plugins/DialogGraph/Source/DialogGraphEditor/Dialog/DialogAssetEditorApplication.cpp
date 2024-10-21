@@ -3,9 +3,7 @@
 
 #include "DialogAssetEditorApplication.h"
 
-FDialogAssetEditorApplication::FDialogAssetEditorApplication()
-{
-}
+#include "DialogApplicationMode.h"
 
 void FDialogAssetEditorApplication::RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager)
 {
@@ -18,8 +16,13 @@ void FDialogAssetEditorApplication::InitEditor(const EToolkitMode::Type Mode,
 	TArray<UObject*> ObjectsToEdit;
 	ObjectsToEdit.Add(InObject);
 
+	// Init Editor
 	InitAssetEditor(Mode, InitToolkitHost, TEXT("DialogEditor"),
 		FTabManager::FLayout::NullLayout, true, true, ObjectsToEdit);
+
+	// Apply App Mode
+	AddApplicationMode(TEXT("DialogApplicationMode"), MakeShareable(new FDialogApplicationMode(SharedThis(this))));
+	SetCurrentMode(TEXT("DialogApplicationMode"));
 }
 
 FName FDialogAssetEditorApplication::GetToolkitFName() const

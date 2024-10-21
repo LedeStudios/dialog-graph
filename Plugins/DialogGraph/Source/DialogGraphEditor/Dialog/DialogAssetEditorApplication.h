@@ -11,9 +11,6 @@ class DIALOGGRAPHEDITOR_API FDialogAssetEditorApplication : public FWorkflowCent
 {
 
 public:
-	FDialogAssetEditorApplication();
-	
-public:
 	virtual void RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager) override;
 
 	void InitEditor(const EToolkitMode::Type Mode, const TSharedPtr<IToolkitHost>& InitToolkitHost, UObject* InObject);
