@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DialogGraph/Data/DialogData.h"
 #include "EdGraph/EdGraphNode.h"
 #include "DialogGraphNode.generated.h"
 
@@ -22,5 +23,13 @@ public:
 
 public:
 	UEdGraphPin* CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name);
+
+public:
+	UPROPERTY()
+	TWeakObjectPtr<UDialogNodeData> NodeData;
+	
+	void SetNodeData(UDialogNodeData* InData) { NodeData = InData; }
+
+	UDialogNodeData* GetNodeData() const { return NodeData.Get(); }
 	
 };

@@ -12,15 +12,15 @@ class UDialog;
 class DIALOGGRAPHEDITOR_API FDialogAssetEditorApplication : public FWorkflowCentricApplication, public FEditorUndoClient, public FNotifyHook
 {
 
-protected:
-	TObjectPtr<UDialog> WorkingAsset;
-
-	TObjectPtr<UEdGraph> WorkingGraph;
-
 public:
 	virtual void RegisterTabSpawners(const TSharedRef<FTabManager>& InTabManager) override;
 
 	void InitEditor(const EToolkitMode::Type Mode, const TSharedPtr<IToolkitHost>& InitToolkitHost, UObject* InObject);
+
+protected:
+	TObjectPtr<UDialog> WorkingAsset;
+
+	TObjectPtr<UEdGraph> WorkingGraph;
 
 public:
 	void UpdateWorkingAssetFromGraph() const;
@@ -30,6 +30,18 @@ public:
 	UDialog* GetWorkingAsset();
 
 	UEdGraph* GetWorkingGraph();
+
+protected:
+	TSharedPtr<SGraphEditor> WorkingGraphUI;
+	TSharedPtr<IDetailsView> SelectedNodeDetailsView;
+	
+public:
+	void SetWorkingGraphUI(const TSharedPtr<SGraphEditor>& InWorkingGraphUI);
+
+	void SetSelectedNodeDetailsView(const TSharedPtr<IDetailsView>& InDetailsView);
+
+public:
+	void OnGraphSelectionChanged(const FGraphPanelSelectionSet& InSelection);
 	
 public:
 	virtual FName GetToolkitFName() const override;
@@ -52,5 +64,7 @@ public:
 
 	FDelegateHandle GraphChangeHandler;
 	void OnGraphChanged(const FEdGraphEditAction& EditAction);
+
+	void OnNodeDetailViewPropertiesUpdated(const FPropertyChangedEvent& InEvent);
 	
 };

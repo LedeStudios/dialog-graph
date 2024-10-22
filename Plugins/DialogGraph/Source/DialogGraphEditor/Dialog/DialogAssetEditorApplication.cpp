@@ -7,6 +7,7 @@
 #include "DialogGraphNode.h"
 #include "DialogGraphSchema.h"
 #include "DialogGraph/Data/Dialog.h"
+#include "DialogGraph/Data/DialogData.h"
 #include "DialogGraph/Data/DialogRuntimeGraph.h"
 #include "Kismet2/BlueprintEditorUtils.h"
 
@@ -55,27 +56,32 @@ void FDialogAssetEditorApplication::UpdateWorkingAssetFromGraph() const
 	TArray<std::pair<FGuid, FGuid>> Connections;
 	TMap<FGuid, UDialogPin*> IdToPinMap;
 
+	// Save Nodes
 	for (UEdGraphNode* Node : WorkingGraph->Nodes)
 	{
-		// Create Node
+		const UDialogGraphNode* GraphNode = Cast<UDialogGraphNode>(Node);
+		if (GraphNode == nullptr)
+		{
+			continue;
+		}
+		
 		UDialogNode* RuntimeNode = NewObject<UDialogNode>(RuntimeGraph);
 		RuntimeNode->Position = FVector2D(Node->NodePosX, Node->NodePosY);
+		RuntimeNode->NodeData = GraphNode->GetNodeData();
 
+		// Save Pins
 		for (UEdGraphPin* Pin : Node->Pins)
 		{
-			// Create Pin
 			UDialogPin* RuntimePin = NewObject<UDialogPin>(RuntimeNode);
 			RuntimePin->PinName = Pin->PinName;
 			RuntimePin->PinId = Pin->PinId;
 
-			// Make Pin Connection
 			if (Pin->HasAnyConnections() && Pin->Direction == EGPD_Output)
 			{
 				std::pair<FGuid, FGuid> Connection = std::make_pair(Pin->PinId, Pin->LinkedTo[0]->PinId);
 				Connections.Add(Connection);
 			}
 
-			// Add Pin to Node
 			IdToPinMap.Add(Pin->PinId, RuntimePin);
 			if (Pin->Direction == EGPD_Input)
 			{
@@ -87,7 +93,6 @@ void FDialogAssetEditorApplication::UpdateWorkingAssetFromGraph() const
 			}
 		}
 
-		// Add Node to Graph
 		RuntimeGraph->Nodes.Add(RuntimeNode);
 	}
 
@@ -117,6 +122,16 @@ void FDialogAssetEditorApplication::UpdateEditorGraphFromWorkingAsset() const
 		Node->CreateNewGuid();
 		Node->NodePosX = RuntimeNode->Position.X;
 		Node->NodePosY = RuntimeNode->Position.Y;
+
+		// Load Node Data
+		if (RuntimeNode->NodeData != nullptr)
+		{
+			Node->SetNodeData(DuplicateObject(RuntimeNode->NodeData, RuntimeNode));
+		}
+		else
+		{
+			Node->SetNodeData(NewObject<UDialogNodeData>(RuntimeNode));
+		}
 
 		// Load Input Pins
 		if (RuntimeNode->InputPin != nullptr)
@@ -171,6 +186,17 @@ UEdGraph* FDialogAssetEditorApplication::GetWorkingGraph()
 	return WorkingGraph;
 }
 
+void FDialogAssetEditorApplication::SetWorkingGraphUI(const TSharedPtr<SGraphEditor>& InWorkingGraphUI)
+{
+	WorkingGraphUI = InWorkingGraphUI;
+}
+
+void FDialogAssetEditorApplication::SetSelectedNodeDetailsView(const TSharedPtr<IDetailsView>& InDetailsView)
+{
+	SelectedNodeDetailsView = InDetailsView;
+	SelectedNodeDetailsView->OnFinishedChangingProperties().AddRaw(this, &FDialogAssetEditorApplication::OnNodeDetailViewPropertiesUpdated);
+}
+
 FName FDialogAssetEditorApplication::GetToolkitFName() const
 {
 	return FName("DialogEditorApp");
@@ -214,4 +240,25 @@ void FDialogAssetEditorApplication::OnClose()
 void FDialogAssetEditorApplication::OnGraphChanged(const FEdGraphEditAction& EditAction)
 {
 	UpdateWorkingAssetFromGraph();
+}
+
+void FDialogAssetEditorApplication::OnNodeDetailViewPropertiesUpdated(const FPropertyChangedEvent& InEvent)
+{
+	if (WorkingGraphUI != nullptr)
+	{
+		WorkingGraphUI->NotifyGraphChanged();
+	}
+}
+
+void FDialogAssetEditorApplication::OnGraphSelectionChanged(const FGraphPanelSelectionSet& InSelection)
+{
+	for (UObject* Obj : InSelection)
+	{
+		if (const UDialogGraphNode* Node = Cast<UDialogGraphNode>(Obj); Node != nullptr)
+		{
+			SelectedNodeDetailsView->SetObject(Node->GetNodeData());
+			return;
+		}
+	}
+	SelectedNodeDetailsView->SetObject(nullptr);
 }

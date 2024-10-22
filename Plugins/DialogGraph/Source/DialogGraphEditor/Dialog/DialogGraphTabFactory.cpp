@@ -18,14 +18,19 @@ TSharedRef<SWidget> FDialogGraphTabFactory::CreateTabBody(const FWorkflowTabSpaw
 {
 	const TSharedPtr<FDialogAssetEditorApplication> PinApp = App.Pin();
 
-	return SNew(SVerticalBox)
-	+ SVerticalBox::Slot()
-	.FillHeight(1.f)
-	.HAlign(HAlign_Fill)
-	[
+	SGraphEditor::FGraphEditorEvents GraphEvents;
+	GraphEvents.OnSelectionChanged.BindRaw(PinApp.Get(), &FDialogAssetEditorApplication::OnGraphSelectionChanged);
+	
+	const TSharedPtr<SGraphEditor> GraphEditor =
 		SNew(SGraphEditor)
-		.IsEditable(true)
-		.GraphToEdit(PinApp->GetWorkingGraph())
+			.IsEditable(true)
+			.GraphEvents(GraphEvents)
+			.GraphToEdit(PinApp->GetWorkingGraph());
+	PinApp->SetWorkingGraphUI(GraphEditor);
+	
+	return SNew(SVerticalBox)+ SVerticalBox::Slot().FillHeight(1.f).HAlign(HAlign_Fill)
+	[
+		GraphEditor.ToSharedRef()
 	];
 }
 

@@ -4,6 +4,7 @@
 #include "DialogGraphSchema.h"
 
 #include "DialogGraphNode.h"
+#include "DialogGraph/Data/DialogData.h"
 
 void UDialogGraphSchema::GetGraphContextActions(FGraphContextMenuBuilder& ContextMenuBuilder) const
 {
@@ -43,6 +44,7 @@ UEdGraphNode* FNewNodeAction::PerformAction(UEdGraph* ParentGraph, UEdGraphPin* 
 	Node->CreateNewGuid();
 	Node->NodePosX = Location.X;
 	Node->NodePosY = Location.Y;
+	Node->SetNodeData(NewObject<UDialogNodeData>(Node));
 
 	UEdGraphPin* InputPin = Node->CreateDialogPin(EGPD_Input, TEXT("Input"));
 	Node->CreateDialogPin(EGPD_Output, TEXT("Output"));

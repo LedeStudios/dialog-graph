@@ -4,11 +4,12 @@
 #include "DialogGraphNode.h"
 #include "Framework/Commands/UIAction.h"
 #include "ToolMenu.h"
+#include "DialogGraph/Data/DialogData.h"
 
 
 FText UDialogGraphNode::GetNodeTitle(ENodeTitleType::Type TitleType) const
 {
-	return FText::FromString(TEXT("Dialog"));
+	return NodeData->Speaker;
 }
 
 FLinearColor UDialogGraphNode::GetNodeTitleColor() const

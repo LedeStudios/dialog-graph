@@ -17,12 +17,35 @@ FDialogPropertyTabFactory::FDialogPropertyTabFactory(const TSharedPtr<FDialogAss
 
 TSharedRef<SWidget> FDialogPropertyTabFactory::CreateTabBody(const FWorkflowTabSpawnInfo& Info) const
 {
-	TSharedPtr<FDialogAssetEditorApplication> PinApp = App.Pin();
+	const TSharedPtr<FDialogAssetEditorApplication> PinApp = App.Pin();
+	FPropertyEditorModule& PropertyEditor = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+
+	FDetailsViewArgs Args;
+	Args.bAllowSearch = false;
+	Args.bHideSelectionTip = true;
+	Args.bLockable = false;
+	Args.bSearchInitialKeyFocus = true;
+	Args.bUpdatesFromSelection = false;
+	Args.NotifyHook = nullptr;
+	Args.bShowOptions = true;
+	Args.bShowModifiedPropertiesOption = false;
+	Args.bShowScrollBar = false;
+
+	const TSharedPtr<IDetailsView> DetailsView = PropertyEditor.CreateDetailView(Args);
+	DetailsView->SetObject(PinApp->GetWorkingAsset());
+
+	const TSharedPtr<IDetailsView> SelectedNodeDetailsView = PropertyEditor.CreateDetailView(Args);
+	SelectedNodeDetailsView->SetObject(nullptr);
+	PinApp->SetSelectedNodeDetailsView(SelectedNodeDetailsView);
 	
 	return SNew(SVerticalBox)
 	+ SVerticalBox::Slot().FillHeight(1.f).HAlign(HAlign_Fill)
 	[
-		SNew(STextBlock)
+		DetailsView.ToSharedRef()
+	]
+	+ SVerticalBox::Slot().FillHeight(1.f).HAlign(HAlign_Fill)
+	[
+		SelectedNodeDetailsView.ToSharedRef()
 	];
 }
 
