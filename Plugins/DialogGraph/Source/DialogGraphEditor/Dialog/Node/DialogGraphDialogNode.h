@@ -3,15 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DialogGraph/Data/DialogData.h"
+#include "DialogGraphNodeBase.h"
 #include "EdGraph/EdGraphNode.h"
-#include "DialogGraphNode.generated.h"
+#include "DialogGraphDialogNode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class DIALOGGRAPHEDITOR_API UDialogGraphNode : public UEdGraphNode
+class DIALOGGRAPHEDITOR_API UDialogGraphDialogNode : public UDialogGraphNodeBase
 {
 	GENERATED_BODY()
 
@@ -22,16 +22,8 @@ public:
 	virtual void GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeContextMenuContext* Context) const override;
 
 public:
-	UEdGraphPin* CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name);
+	virtual UEdGraphPin* CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name) override;
 
 	void SyncPinsWithChoices();
-
-public:
-	UPROPERTY()
-	TWeakObjectPtr<UDialogNodeData> NodeData;
-	
-	void SetNodeData(UDialogNodeData* InData) { NodeData = InData; }
-
-	UDialogNodeData* GetNodeData() const { return NodeData.Get(); }
 	
 };

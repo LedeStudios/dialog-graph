@@ -7,7 +7,7 @@
 #include "WorkflowOrientedApp/WorkflowCentricApplication.h"
 
 
-class UDialogGraphNode;
+class UDialogGraphDialogNode;
 class UDialog;
 
 class DIALOGGRAPHEDITOR_API FDialogAssetEditorApplication : public FWorkflowCentricApplication, public FEditorUndoClient, public FNotifyHook
@@ -28,7 +28,7 @@ protected:
 
 	void UpdateEditorGraphFromWorkingAsset() const;
 
-	UDialogGraphNode* GetSelectedNode(const FGraphPanelSelectionSet& InSelection);
+	UDialogGraphDialogNode* GetSelectedNode(const FGraphPanelSelectionSet& InSelection);
 
 public:
 	UDialog* GetWorkingAsset();

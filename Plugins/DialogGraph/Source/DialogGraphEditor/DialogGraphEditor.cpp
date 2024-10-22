@@ -29,6 +29,42 @@ protected:
 	}
 };
 
+class SDialogGraphStartPin : public SGraphPin
+{
+public:
+	SLATE_BEGIN_ARGS(SDialogGraphStartPin) {}
+	SLATE_END_ARGS()
+
+	void Construct(const FArguments& InArgs, UEdGraphPin* InGraphPin)
+	{
+		SGraphPin::Construct(SGraphPin::FArguments(), InGraphPin);
+	}
+
+protected:
+	virtual FSlateColor GetPinColor() const override
+	{
+		return FSlateColor(FLinearColor(1.0f, 0.2f, 0.2f));
+	}
+};
+
+class SDialogGraphFinishPin : public SGraphPin
+{
+public:
+	SLATE_BEGIN_ARGS(SDialogGraphStartPin) {}
+	SLATE_END_ARGS()
+
+	void Construct(const FArguments& InArgs, UEdGraphPin* InGraphPin)
+	{
+		SGraphPin::Construct(SGraphPin::FArguments(), InGraphPin);
+	}
+
+protected:
+	virtual FSlateColor GetPinColor() const override
+	{
+		return FSlateColor(FLinearColor(1.0f, 0.2f, 0.2f));
+	}
+};
+
 struct FDialogPinFactory : FGraphPanelPinFactory
 {
 public:
@@ -40,9 +76,22 @@ public:
 		{
 			return SNew(SDialogGraphPin, Pin);
 		}
+
+		if (FName(TEXT("StartPin")) == Pin->PinType.PinSubCategory)
+		{
+			return SNew(SDialogGraphStartPin, Pin);
+		}
+
+		if (FName(TEXT("FinishPin")) == Pin->PinType.PinSubCategory)
+		{
+			return SNew(SDialogGraphFinishPin, Pin);
+		}
+		
 		return FGraphPanelPinFactory::CreatePin(Pin);
 	}
 };
+
+
 
 void FDialogGraphEditorModule::StartupModule()
 {

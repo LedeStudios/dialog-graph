@@ -1,13 +1,13 @@
 ﻿// Copyright Lede Studios. All Rights Reserved.
 
 
-#include "DialogGraphNode.h"
+#include "DialogGraphDialogNode.h"
 #include "Framework/Commands/UIAction.h"
 #include "ToolMenu.h"
 #include "DialogGraph/Data/DialogData.h"
 
 
-FText UDialogGraphNode::GetNodeTitle(ENodeTitleType::Type TitleType) const
+FText UDialogGraphDialogNode::GetNodeTitle(ENodeTitleType::Type TitleType) const
 {
 	if (NodeData->Speaker.IsEmpty()) {
 		return FText::FromString("Enter Dialog Speaker");
@@ -15,20 +15,20 @@ FText UDialogGraphNode::GetNodeTitle(ENodeTitleType::Type TitleType) const
 	return NodeData->Speaker;
 }
 
-FLinearColor UDialogGraphNode::GetNodeTitleColor() const
+FLinearColor UDialogGraphDialogNode::GetNodeTitleColor() const
 {
 	return FLinearColor(FColor::FromHex("#FC037F"));
 }
 
-bool UDialogGraphNode::CanUserDeleteNode() const
+bool UDialogGraphDialogNode::CanUserDeleteNode() const
 {
 	return true;
 }
 
-void UDialogGraphNode::GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeContextMenuContext* Context) const
+void UDialogGraphDialogNode::GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeContextMenuContext* Context) const
 {
 	FToolMenuSection& Section = Menu->AddSection(TEXT("SectionName"), FText::FromString("Dialog Node Actions"));
-	UDialogGraphNode* Node = const_cast<UDialogGraphNode*>(this);
+	UDialogGraphDialogNode* Node = const_cast<UDialogGraphDialogNode*>(this);
 	
 	Section.AddMenuEntry(
 		TEXT("AddPinEntry"),
@@ -76,7 +76,7 @@ void UDialogGraphNode::GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeCont
 	);
 }
 
-UEdGraphPin* UDialogGraphNode::CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name)
+UEdGraphPin* UDialogGraphDialogNode::CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name)
 {
 	const FName Category = (Direction == EGPD_Input) ? TEXT("Inputs") : TEXT("Outputs");
 	const FName SubCategory = TEXT("DialogPin");
@@ -87,7 +87,7 @@ UEdGraphPin* UDialogGraphNode::CreateDialogPin(const EEdGraphPinDirection Direct
 	return Pin;
 }
 
-void UDialogGraphNode::SyncPinsWithChoices()
+void UDialogGraphDialogNode::SyncPinsWithChoices()
 {
 	const UDialogNodeData* Data = GetNodeData();
 

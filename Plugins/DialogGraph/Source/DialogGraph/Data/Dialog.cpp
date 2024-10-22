@@ -11,4 +11,6 @@ void UDialog::PreSave(const FObjectPreSaveContext SaveContext)
 	{
 		OnPreSaveListener();
 	}
+	
+	UObject::PreSave(SaveContext);
 }
