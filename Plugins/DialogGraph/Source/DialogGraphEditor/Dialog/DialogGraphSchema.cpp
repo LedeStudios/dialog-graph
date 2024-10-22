@@ -73,7 +73,7 @@ void UDialogGraphSchema::CreateDefaultNodesForGraph(UEdGraph& Graph) const
 UEdGraphNode* FNewNodeAction::PerformAction(UEdGraph* ParentGraph, UEdGraphPin* FromPin, const FVector2D Location,
                                             bool bSelectNewNode)
 {
-	UDialogGraphNodeBase* Node = NewObject<UDialogGraphDialogNode>(ParentGraph, ClassTemplate);
+	UDialogGraphNodeBase* Node = NewObject<UDialogGraphNodeBase>(ParentGraph, ClassTemplate);
 	Node->CreateNewGuid();
 	Node->NodePosX = Location.X;
 	Node->NodePosY = Location.Y;
