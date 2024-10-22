@@ -23,7 +23,23 @@ public:
 
 public:
 	virtual UEdGraphPin* CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name) override;
+	virtual UEdGraphPin* CreateDefaultInputPin() override;
+	virtual void CreateDefaultOutputPin() override;
 
+public:
+	UPROPERTY()
+	TWeakObjectPtr<UDialogNodeData> NodeData;
+	
+	virtual void InitNodeData(UObject* Outer) override { NodeData = NewObject<UDialogNodeData>(Outer); }
+	virtual void SetNodeData(UDialogNodeData* InData) override { NodeData = InData; }
+	virtual UDialogNodeData* GetNodeData() const override { return NodeData.Get(); }
+	virtual EDialogNodeType GetDialogNodeType() const override { return EDialogNodeType::Dialog; }
+
+public:
+	virtual void OnPropertiesChanged() override { SyncPinsWithChoices(); }
+
+public:
 	void SyncPinsWithChoices();
+	
 	
 };

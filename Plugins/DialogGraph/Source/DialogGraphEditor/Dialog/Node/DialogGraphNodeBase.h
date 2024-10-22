@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "DialogGraph/Data/DialogData.h"
+#include "DialogGraph/Data/DialogType.h"
 #include "UObject/Object.h"
 #include "DialogGraphNodeBase.generated.h"
 
+enum class EDialogNodeType : uint8;
 /**
  * 
  */
@@ -17,14 +19,16 @@ class DIALOGGRAPHEDITOR_API UDialogGraphNodeBase : public UEdGraphNode
 
 public:
 	virtual UEdGraphPin* CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name) { return nullptr; }
-
-protected:
-	UPROPERTY()
-	TWeakObjectPtr<UDialogNodeData> NodeData;
+	virtual UEdGraphPin* CreateDefaultInputPin() { return nullptr; }
+	virtual void CreateDefaultOutputPin() {}
 
 public:
-	void SetNodeData(UDialogNodeData* InData) { NodeData = InData; }
+	virtual void InitNodeData(UObject* Outer) {}
+	virtual void SetNodeData(UDialogNodeData* InData) {}
+	virtual UDialogNodeData* GetNodeData() const { return nullptr; }
+	virtual EDialogNodeType GetDialogNodeType()  const { return EDialogNodeType::Unknown; }
 
-	UDialogNodeData* GetNodeData() const { return NodeData.Get(); }
+public:
+	virtual void OnPropertiesChanged() {}
 	
 };

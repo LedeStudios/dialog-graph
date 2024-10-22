@@ -90,20 +90,10 @@ void FDialogAssetEditorApplication::UpdateWorkingAssetFromGraph() const
 			}
 		}
 
-		if (Node->IsA(UDialogGraphDialogNode::StaticClass()))
-		{
-			const UDialogGraphDialogNode* GraphNode = Cast<UDialogGraphDialogNode>(Node);
-			RuntimeNode->NodeData = GraphNode->GetNodeData();
-		}
-		else if (Node->IsA(UDialogGraphStartNode::StaticClass()))
-		{
-			RuntimeNode->NodeType = EDialogNodeType::Start;
-		}
-		else if (Node->IsA(UDialogGraphFinishNode::StaticClass()))
-		{
-			RuntimeNode->NodeType = EDialogNodeType::Finish;
-		}
-		
+		const UDialogGraphNodeBase* GraphNode = Cast<UDialogGraphNodeBase>(Node);
+		RuntimeNode->NodeData = DuplicateObject(GraphNode->GetNodeData(), RuntimeNode);
+		RuntimeNode->NodeType = GraphNode->GetDialogNodeType();
+
 		RuntimeGraph->Nodes.Add(RuntimeNode);
 	}
 
@@ -142,6 +132,9 @@ void FDialogAssetEditorApplication::UpdateEditorGraphFromWorkingAsset() const
 		case EDialogNodeType::Dialog:
 			Node = NewObject<UDialogGraphDialogNode>(WorkingGraph);
 			break;
+		default:
+			UE_LOG(DialogEditorApp, Error, TEXT("FDialogAssetEditorApplication::UpdateEditorGraphFromWorkingAsset: Unknown node type"));
+			continue;
 		}
 		
 		Node->CreateNewGuid();
@@ -151,14 +144,11 @@ void FDialogAssetEditorApplication::UpdateEditorGraphFromWorkingAsset() const
 		// Load Node Data
 		if (RuntimeNode->NodeData != nullptr)
 		{
-			Node->SetNodeData(DuplicateObject(RuntimeNode->NodeData, RuntimeNode));
+			Node->SetNodeData(DuplicateObject(RuntimeNode->NodeData, Node));
 		}
 		else
 		{
-			if (RuntimeNode->NodeType == EDialogNodeType::Dialog)
-			{
-				Node->SetNodeData(NewObject<UDialogNodeData>(RuntimeNode));
-			}
+			Node->InitNodeData(Node);
 		}
 
 		// Load Input Pins
@@ -219,11 +209,11 @@ void FDialogAssetEditorApplication::SetWorkingGraphUI(const TSharedPtr<SGraphEdi
 	WorkingGraphUI = InWorkingGraphUI;
 }
 
-UDialogGraphDialogNode* FDialogAssetEditorApplication::GetSelectedNode(const FGraphPanelSelectionSet& InSelection)
+UDialogGraphNodeBase* FDialogAssetEditorApplication::GetSelectedNode(const FGraphPanelSelectionSet& InSelection)
 {
 	for (UObject* Obj : InSelection)
 	{
-		if (UDialogGraphDialogNode* Node = Cast<UDialogGraphDialogNode>(Obj); Node != nullptr)
+		if (UDialogGraphNodeBase* Node = Cast<UDialogGraphNodeBase>(Obj); Node != nullptr)
 		{
 			return Node;
 		}
@@ -287,9 +277,9 @@ void FDialogAssetEditorApplication::OnNodeDetailViewPropertiesUpdated(const FPro
 {
 	if (WorkingGraphUI != nullptr)
 	{
-		if (UDialogGraphDialogNode* Node = GetSelectedNode(WorkingGraphUI->GetSelectedNodes()); Node != nullptr)
+		if (UDialogGraphNodeBase* Node = GetSelectedNode(WorkingGraphUI->GetSelectedNodes()); Node != nullptr)
 		{
-			Node->SyncPinsWithChoices();
+			Node->OnPropertiesChanged();
 		}
 		WorkingGraphUI->NotifyGraphChanged();
 	}
@@ -297,7 +287,7 @@ void FDialogAssetEditorApplication::OnNodeDetailViewPropertiesUpdated(const FPro
 
 void FDialogAssetEditorApplication::OnGraphSelectionChanged(const FGraphPanelSelectionSet& InSelection)
 {
-	if (const UDialogGraphDialogNode* Node = GetSelectedNode(InSelection); Node != nullptr)
+	if (const UDialogGraphNodeBase* Node = GetSelectedNode(InSelection); Node != nullptr)
 	{
 		SelectedNodeDetailsView->SetObject(Node->GetNodeData());
 	}

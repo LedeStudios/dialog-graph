@@ -28,3 +28,8 @@ UEdGraphPin* UDialogGraphStartNode::CreateDialogPin(const EEdGraphPinDirection D
 
 	return Pin;
 }
+
+void UDialogGraphStartNode::CreateDefaultOutputPin()
+{
+	CreateDialogPin(EGPD_Output, TEXT("Start"));
+}

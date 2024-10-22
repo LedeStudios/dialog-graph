@@ -6,6 +6,8 @@
 #include "UObject/Object.h"
 #include "DialogData.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnNodeSelectedDelegate);
+
 USTRUCT(BlueprintType)
 struct FDialogChoice
 {
@@ -39,5 +41,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="Dialog")
 	TArray<FDialogChoice> Choices;
+
+public:
+	UPROPERTY(BlueprintAssignable, Category="Dialog")
+	FOnNodeSelectedDelegate OnNodeSelected;
 	
 };

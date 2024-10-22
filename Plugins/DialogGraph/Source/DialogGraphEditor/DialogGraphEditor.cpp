@@ -61,7 +61,7 @@ public:
 protected:
 	virtual FSlateColor GetPinColor() const override
 	{
-		return FSlateColor(FLinearColor(1.0f, 0.2f, 0.2f));
+		return FSlateColor(FLinearColor(0.2f, 0.2f, 1.f));
 	}
 };
 

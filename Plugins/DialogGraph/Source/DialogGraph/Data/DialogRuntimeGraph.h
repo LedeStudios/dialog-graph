@@ -3,18 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DialogType.h"
 #include "UObject/Object.h"
 #include "DialogRuntimeGraph.generated.h"
 
 class UDialogNodeData;
-
-UENUM(BlueprintType)
-enum class EDialogNodeType : uint8
-{
-	Start,
-	Dialog,
-	Finish
-};
 
 UCLASS()
 class DIALOGGRAPH_API UDialogPin : public UObject

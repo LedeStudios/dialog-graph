@@ -12,16 +12,28 @@ void UDialogGraphSchema::GetGraphContextActions(FGraphContextMenuBuilder& Contex
 {
 	Super::GetGraphContextActions(ContextMenuBuilder);
 
-	const TSharedPtr<FNewNodeAction> NewNodeAction(
+	const TSharedPtr<FNewNodeAction> NewDialogNodeAction(
 		new FNewNodeAction(
+			UDialogGraphDialogNode::StaticClass(),
 			FText::FromString(TEXT("Nodes")),
-			FText::FromString(TEXT("New Node")),
-			FText::FromString(TEXT("Makes a new node")),
+			FText::FromString(TEXT("New Dialog Node")),
+			FText::FromString(TEXT("Makes a new dialog node")),
 			0
 		)
 	);
 
-	ContextMenuBuilder.AddAction(NewNodeAction);
+	const TSharedPtr<FNewNodeAction> NewDialogFinishNodeAction(
+		new FNewNodeAction(
+			UDialogGraphFinishNode::StaticClass(),
+			FText::FromString(TEXT("Nodes")),
+			FText::FromString(TEXT("New Finish Node")),
+			FText::FromString(TEXT("Makes a new finish node")),
+			0
+		)
+	);
+	
+	ContextMenuBuilder.AddAction(NewDialogNodeAction);
+	ContextMenuBuilder.AddAction(NewDialogFinishNodeAction);
 }
 
 const FPinConnectionResponse UDialogGraphSchema::CanCreateConnection(const UEdGraphPin* A, const UEdGraphPin* B) const
@@ -45,14 +57,14 @@ void UDialogGraphSchema::CreateDefaultNodesForGraph(UEdGraph& Graph) const
 	StartNode->CreateNewGuid();
 	StartNode->NodePosX = 0;
 	StartNode->NodePosY = 0;
-	StartNode->CreateDialogPin(EGPD_Output, TEXT("Start"));
+	StartNode->CreateDefaultOutputPin();
 	Graph.AddNode(StartNode, true, true);
 
 	UDialogGraphFinishNode* FinishNode = NewObject<UDialogGraphFinishNode>(&Graph);
 	FinishNode->CreateNewGuid();
 	FinishNode->NodePosX = 100;
 	FinishNode->NodePosY = 0;
-	FinishNode->CreateDialogPin(EGPD_Input, TEXT("Finish"));
+	FinishNode->CreateDefaultInputPin();
 	Graph.AddNode(FinishNode, true, true);
 	
 	Graph.Modify();
@@ -61,14 +73,14 @@ void UDialogGraphSchema::CreateDefaultNodesForGraph(UEdGraph& Graph) const
 UEdGraphNode* FNewNodeAction::PerformAction(UEdGraph* ParentGraph, UEdGraphPin* FromPin, const FVector2D Location,
                                             bool bSelectNewNode)
 {
-	UDialogGraphDialogNode* Node = NewObject<UDialogGraphDialogNode>(ParentGraph);
+	UDialogGraphNodeBase* Node = NewObject<UDialogGraphDialogNode>(ParentGraph, ClassTemplate);
 	Node->CreateNewGuid();
 	Node->NodePosX = Location.X;
 	Node->NodePosY = Location.Y;
-	Node->SetNodeData(NewObject<UDialogNodeData>(Node));
+	Node->InitNodeData(Node);
 
-	UEdGraphPin* InputPin = Node->CreateDialogPin(EGPD_Input, TEXT("In"));
-	Node->SyncPinsWithChoices();
+	UEdGraphPin* InputPin = Node->CreateDefaultInputPin();
+	Node->CreateDefaultOutputPin();
 
 	if (FromPin != nullptr)
 	{

@@ -87,6 +87,16 @@ UEdGraphPin* UDialogGraphDialogNode::CreateDialogPin(const EEdGraphPinDirection 
 	return Pin;
 }
 
+UEdGraphPin* UDialogGraphDialogNode::CreateDefaultInputPin()
+{
+	return CreateDialogPin(EGPD_Input, TEXT("In"));
+}
+
+void UDialogGraphDialogNode::CreateDefaultOutputPin()
+{
+	SyncPinsWithChoices();
+}
+
 void UDialogGraphDialogNode::SyncPinsWithChoices()
 {
 	const UDialogNodeData* Data = GetNodeData();
@@ -101,14 +111,14 @@ void UDialogGraphDialogNode::SyncPinsWithChoices()
 	const int32 ChoiceNum = Data->Choices.Num();
 	if (ChoiceNum < 1)
 	{
-		UEdGraphPin* Pin = CreateDialogPin(EGPD_Output, TEXT("Continue"));
+		CreateDialogPin(EGPD_Output, TEXT("Continue"));
 		return;
 	}
 	
 	// Or Choice Dialog Pin
 	for (int Index = 0; Index < ChoiceNum; ++Index)
 	{
-		UEdGraphPin* Pin = CreateDialogPin(EGPD_Output, FName(Data->Choices[Index].Line.ToString()));
+		CreateDialogPin(EGPD_Output, FName(Data->Choices[Index].Line.ToString()));
 	}
 	
 }
