@@ -17,6 +17,9 @@ class DIALOGGRAPH_API UDialog : public UObject
 public:
 	UPROPERTY(EditAnywhere, Category="Dialog")
 	FString DialogId;
+
+	UPROPERTY(EditAnywhere, Category="Dialog")
+	FTransform CameraPosition;
 	
 	UPROPERTY()
 	TObjectPtr<UDialogGraph> Graph;

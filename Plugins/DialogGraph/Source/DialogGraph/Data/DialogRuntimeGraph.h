@@ -6,6 +6,8 @@
 #include "UObject/Object.h"
 #include "DialogRuntimeGraph.generated.h"
 
+class UDialogNodeData;
+
 UCLASS()
 class DIALOGGRAPH_API UDialogPin : public UObject
 {
@@ -37,6 +39,9 @@ public:
 
 	UPROPERTY()
 	FVector2D Position;
+
+	UPROPERTY()
+	TObjectPtr<UDialogNodeData> NodeData;
 		
 };
 
