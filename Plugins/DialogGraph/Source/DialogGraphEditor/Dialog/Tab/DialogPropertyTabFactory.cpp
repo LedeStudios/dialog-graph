@@ -3,8 +3,8 @@
 
 #include "DialogPropertyTabFactory.h"
 
-#include "DialogAssetEditorApplication.h"
 #include "DialogGraph/Data/Dialog.h"
+#include "DialogGraphEditor/Dialog/DialogAssetEditorApplication.h"
 
 FDialogPropertyTabFactory::FDialogPropertyTabFactory(const TSharedPtr<FDialogAssetEditorApplication>& InApp)
 : FWorkflowTabFactory(FName("DialogPropertyTab"), InApp)

@@ -4,8 +4,8 @@
 #include "DialogApplicationMode.h"
 
 #include "DialogAssetEditorApplication.h"
-#include "DialogGraphTabFactory.h"
-#include "DialogPropertyTabFactory.h"
+#include "Tab/DialogGraphTabFactory.h"
+#include "Tab/DialogPropertyTabFactory.h"
 
 FDialogApplicationMode::FDialogApplicationMode(const TSharedPtr<FDialogAssetEditorApplication>& InApp)
 : FApplicationMode(TEXT("DialogApplicationMode"))
