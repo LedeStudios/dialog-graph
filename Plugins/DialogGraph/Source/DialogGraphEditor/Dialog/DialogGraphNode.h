@@ -24,6 +24,8 @@ public:
 public:
 	UEdGraphPin* CreateDialogPin(const EEdGraphPinDirection Direction, const FName Name);
 
+	void SyncPinsWithChoices();
+
 public:
 	UPROPERTY()
 	TWeakObjectPtr<UDialogNodeData> NodeData;

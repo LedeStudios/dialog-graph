@@ -9,6 +9,9 @@
 
 FText UDialogGraphNode::GetNodeTitle(ENodeTitleType::Type TitleType) const
 {
+	if (NodeData->Speaker.IsEmpty()) {
+		return FText::FromString("Enter Dialog Speaker");
+	}
 	return NodeData->Speaker;
 }
 
@@ -29,12 +32,14 @@ void UDialogGraphNode::GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeCont
 	
 	Section.AddMenuEntry(
 		TEXT("AddPinEntry"),
-		FText::FromString("Add Pin"),
-		FText::FromString("Creates a new pin"),
+		FText::FromString("Add Choice"),
+		FText::FromString("Creates a new choice"),
 		FSlateIcon(),
 		FUIAction(FExecuteAction::CreateLambda([Node]()
 		{
-			Node->CreateDialogPin(EGPD_Output, TEXT("Output"));
+			Node->GetNodeData()->Choices.Add(FDialogChoice());
+			Node->SyncPinsWithChoices();
+			
 			Node->GetGraph()->NotifyGraphChanged();
 			Node->GetGraph()->Modify();
 		}))
@@ -42,20 +47,20 @@ void UDialogGraphNode::GetNodeContextMenuActions(UToolMenu* Menu, UGraphNodeCont
 
 	Section.AddMenuEntry(
 		TEXT("DeletePinEntry"),
-		FText::FromString("Delete Pin"),
-		FText::FromString("Deletes the last pin"),
+		FText::FromString("Delete Choice"),
+		FText::FromString("Deletes the last choice"),
 		FSlateIcon(),
 		FUIAction(FExecuteAction::CreateLambda([Node]()
 		{
-			if (Node->Pins.Num() > 2) // Input: 1, Output: 1
+			UDialogNodeData* Data = Node->GetNodeData();
+			if (Data->Choices.Num() > 0)
 			{
-				if (UEdGraphPin* Pin = Node->GetPinAt(Node->Pins.Num() - 1); Pin->Direction != EGPD_Input)
-				{
-					Node->RemovePin(Pin);
-					Node->GetGraph()->NotifyGraphChanged();
-					Node->GetGraph()->Modify();
-				}
-			} 
+				Data->Choices.RemoveAt(Data->Choices.Num() - 1);
+			}
+
+			Node->SyncPinsWithChoices();
+			Node->GetGraph()->NotifyGraphChanged();
+			Node->GetGraph()->Modify();
 		}))
 	);
 
@@ -80,4 +85,30 @@ UEdGraphPin* UDialogGraphNode::CreateDialogPin(const EEdGraphPinDirection Direct
 	Pin->PinType.PinSubCategory = SubCategory;
 
 	return Pin;
+}
+
+void UDialogGraphNode::SyncPinsWithChoices()
+{
+	const UDialogNodeData* Data = GetNodeData();
+
+	// Remove All Output Pins
+	for (int Index = Pins.Num() - 1; Index > 0; --Index)
+	{
+		RemovePinAt(Index - 1, EGPD_Output);
+	}
+	
+	// Add Regular Dialog Pin
+	const int32 ChoiceNum = Data->Choices.Num();
+	if (ChoiceNum < 1)
+	{
+		UEdGraphPin* Pin = CreateDialogPin(EGPD_Output, TEXT("Continue"));
+		return;
+	}
+	
+	// Or Choice Dialog Pin
+	for (int Index = 0; Index < ChoiceNum; ++Index)
+	{
+		UEdGraphPin* Pin = CreateDialogPin(EGPD_Output, FName(Data->Choices[Index].Line.ToString()));
+	}
+	
 }

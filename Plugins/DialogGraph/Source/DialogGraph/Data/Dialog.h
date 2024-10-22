@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
 #include "Dialog.generated.h"
@@ -23,6 +25,15 @@ public:
 	
 	UPROPERTY()
 	TObjectPtr<UDialogGraph> Graph;
+
+public:
+	void SetPreSaveListener(const std::function<void()>& InOnPreSaveListener) { OnPreSaveListener = InOnPreSaveListener; }
+
+private:
+	std::function<void()> OnPreSaveListener;
+
+public:
+	virtual void PreSave(FObjectPreSaveContext SaveContext) override;
 	
 };
 

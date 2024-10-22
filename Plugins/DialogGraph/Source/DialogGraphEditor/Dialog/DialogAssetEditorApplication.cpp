@@ -23,6 +23,10 @@ void FDialogAssetEditorApplication::InitEditor(const EToolkitMode::Type Mode,
 	ObjectsToEdit.Add(InObject);
 
 	WorkingAsset = Cast<UDialog>(InObject);
+	WorkingAsset->SetPreSaveListener([this]()
+	{
+		OnWorkingAssetPreSave();
+	});
 
 	WorkingGraph = FBlueprintEditorUtils::CreateNewGraph(
 		WorkingAsset, NAME_None, UEdGraph::StaticClass(), UDialogGraphSchema::StaticClass());
@@ -37,10 +41,6 @@ void FDialogAssetEditorApplication::InitEditor(const EToolkitMode::Type Mode,
 
 	// Load Graph
 	UpdateEditorGraphFromWorkingAsset();
-
-	// Bind Handler
-	GraphChangeHandler = WorkingGraph->AddOnGraphChangedHandler(
-		FOnGraphChanged::FDelegate::CreateSP(this, &FDialogAssetEditorApplication::OnGraphChanged));
 }
 
 void FDialogAssetEditorApplication::UpdateWorkingAssetFromGraph() const
@@ -191,6 +191,18 @@ void FDialogAssetEditorApplication::SetWorkingGraphUI(const TSharedPtr<SGraphEdi
 	WorkingGraphUI = InWorkingGraphUI;
 }
 
+UDialogGraphNode* FDialogAssetEditorApplication::GetSelectedNode(const FGraphPanelSelectionSet& InSelection)
+{
+	for (UObject* Obj : InSelection)
+	{
+		if (UDialogGraphNode* Node = Cast<UDialogGraphNode>(Obj); Node != nullptr)
+		{
+			return Node;
+		}
+	}
+	return nullptr;
+}
+
 void FDialogAssetEditorApplication::SetSelectedNodeDetailsView(const TSharedPtr<IDetailsView>& InDetailsView)
 {
 	SelectedNodeDetailsView = InDetailsView;
@@ -233,12 +245,13 @@ void FDialogAssetEditorApplication::OnToolkitHostingFinished(const TSharedRef<IT
 void FDialogAssetEditorApplication::OnClose()
 {
 	UpdateWorkingAssetFromGraph();
-	WorkingGraph->RemoveOnGraphChangedHandler(GraphChangeHandler);
+	WorkingAsset->SetPreSaveListener(nullptr);
 	FAssetEditorToolkit::OnClose();
 }
 
-void FDialogAssetEditorApplication::OnGraphChanged(const FEdGraphEditAction& EditAction)
+void FDialogAssetEditorApplication::OnWorkingAssetPreSave() const
 {
+	// Update asset from the graph just before saving it.
 	UpdateWorkingAssetFromGraph();
 }
 
@@ -246,19 +259,22 @@ void FDialogAssetEditorApplication::OnNodeDetailViewPropertiesUpdated(const FPro
 {
 	if (WorkingGraphUI != nullptr)
 	{
+		if (UDialogGraphNode* Node = GetSelectedNode(WorkingGraphUI->GetSelectedNodes()); Node != nullptr)
+		{
+			Node->SyncPinsWithChoices();
+		}
 		WorkingGraphUI->NotifyGraphChanged();
 	}
 }
 
 void FDialogAssetEditorApplication::OnGraphSelectionChanged(const FGraphPanelSelectionSet& InSelection)
 {
-	for (UObject* Obj : InSelection)
+	if (const UDialogGraphNode* Node = GetSelectedNode(InSelection); Node != nullptr)
 	{
-		if (const UDialogGraphNode* Node = Cast<UDialogGraphNode>(Obj); Node != nullptr)
-		{
-			SelectedNodeDetailsView->SetObject(Node->GetNodeData());
-			return;
-		}
+		SelectedNodeDetailsView->SetObject(Node->GetNodeData());
 	}
-	SelectedNodeDetailsView->SetObject(nullptr);
+	else
+	{
+		SelectedNodeDetailsView->SetObject(nullptr);
+	}
 }
