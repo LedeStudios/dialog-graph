@@ -4,7 +4,7 @@
 #include "DialogAssetEditorApplication.h"
 
 #include "DialogApplicationMode.h"
-#include "DialogGraphNode.h"
+#include "Node/DialogGraphNode.h"
 #include "DialogGraphSchema.h"
 #include "DialogGraph/Data/Dialog.h"
 #include "DialogGraph/Data/DialogData.h"
