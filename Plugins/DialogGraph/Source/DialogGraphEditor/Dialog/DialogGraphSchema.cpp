@@ -3,7 +3,7 @@
 
 #include "DialogGraphSchema.h"
 
-#include "DialogGraphNode.h"
+#include "Node/DialogGraphNode.h"
 #include "DialogGraph/Data/DialogData.h"
 
 void UDialogGraphSchema::GetGraphContextActions(FGraphContextMenuBuilder& ContextMenuBuilder) const

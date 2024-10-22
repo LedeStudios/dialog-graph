@@ -8,6 +8,14 @@
 
 class UDialogNodeData;
 
+UENUM()
+enum EDialogNodeType
+{
+	Start,
+	Dialog,
+	Finish
+};
+
 UCLASS()
 class DIALOGGRAPH_API UDialogPin : public UObject
 {
@@ -31,6 +39,9 @@ class DIALOGGRAPH_API UDialogNode : public UObject
 	GENERATED_BODY()
 
 public:
+	UPROPERTY()
+	EDialogNodeType NodeType = Dialog;
+	
 	UPROPERTY()
 	TObjectPtr<UDialogPin> InputPin;
 
