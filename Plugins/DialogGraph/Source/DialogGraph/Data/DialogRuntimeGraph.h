@@ -9,53 +9,53 @@
 
 class UDialogNodeData;
 
-UCLASS()
+UCLASS(BlueprintType)
 class DIALOGGRAPH_API UDialogPin : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	FGuid PinId;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	FName PinName;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	TObjectPtr<UDialogPin> Connection = nullptr;
 	
 };
 
-UCLASS()
+UCLASS(BlueprintType)
 class DIALOGGRAPH_API UDialogNode : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	EDialogNodeType NodeType = EDialogNodeType::Dialog;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	TObjectPtr<UDialogPin> InputPin;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	TArray<UDialogPin*> OutputPins;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	FVector2D Position;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	TObjectPtr<UDialogNodeData> NodeData;
 		
 };
 
-UCLASS()
+UCLASS(BlueprintType)
 class DIALOGGRAPH_API UDialogGraph : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	TArray<UDialogNode*> Nodes;
 
 public:

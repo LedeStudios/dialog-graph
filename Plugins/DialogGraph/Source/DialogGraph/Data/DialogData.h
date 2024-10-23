@@ -13,10 +13,10 @@ struct FDialogChoice
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	TObjectPtr<UTexture2D> Icon;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	FText Line;
 	
 };
@@ -27,23 +27,19 @@ class DIALOGGRAPH_API UDialogNodeData : public UObject
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, Category="Dialog")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	FText Speaker;
 
-	UPROPERTY(EditAnywhere, Category="Dialog")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	FText Line;
 
-	UPROPERTY(EditAnywhere, Category="Dialog")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	FTransform CameraOffset;
 
-	UPROPERTY(EditAnywhere, Category="Dialog")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	TObjectPtr<USoundBase> SoundToPlay;
 
-	UPROPERTY(EditAnywhere, Category="Dialog")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	TArray<FDialogChoice> Choices;
-
-public:
-	UPROPERTY(BlueprintAssignable, Category="Dialog")
-	FOnNodeSelectedDelegate OnNodeSelected;
 	
 };

@@ -17,13 +17,13 @@ class DIALOGGRAPH_API UDialog : public UObject
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, Category="Dialog")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	FString DialogId;
 
-	UPROPERTY(EditAnywhere, Category="Dialog")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	FTransform CameraPosition;
 	
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	TObjectPtr<UDialogGraph> Graph;
 
 public:
