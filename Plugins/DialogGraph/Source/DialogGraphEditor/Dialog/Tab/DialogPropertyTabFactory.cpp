@@ -29,7 +29,7 @@ TSharedRef<SWidget> FDialogPropertyTabFactory::CreateTabBody(const FWorkflowTabS
 	Args.NotifyHook = nullptr;
 	Args.bShowOptions = true;
 	Args.bShowModifiedPropertiesOption = false;
-	Args.bShowScrollBar = false;
+	Args.bShowScrollBar = true;
 
 	const TSharedPtr<IDetailsView> DetailsView = PropertyEditor.CreateDetailView(Args);
 	DetailsView->SetObject(PinApp->GetWorkingAsset());
