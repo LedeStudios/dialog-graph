@@ -57,5 +57,12 @@ class DIALOGGRAPH_API UDialogGraph : public UObject
 public:
 	UPROPERTY()
 	TArray<UDialogNode*> Nodes;
+
+public:
+	UPROPERTY(BlueprintCallable, Category="Dialog")
+	UDialogNode* FindNextNode(UDialogNode* CurrentNode);
+
+	UPROPERTY(BlueprintCallable, Category="Dialog")
+	UDialogNode* FindNextNode(UDialogNode* CurrentNode, int32& Index);
 	
 };
