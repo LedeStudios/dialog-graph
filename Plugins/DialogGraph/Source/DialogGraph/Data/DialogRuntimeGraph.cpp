@@ -6,10 +6,10 @@
 UDialogNode* UDialogGraph::FindNextNode(UDialogNode* CurrentNode)
 {
 	int32 Index = 0;
-	return FindNextNode(CurrentNode, Index);
+	return FindNextNodeByIndex(CurrentNode, Index);
 }
 
-UDialogNode* UDialogGraph::FindNextNode(UDialogNode* CurrentNode, int32& Index)
+UDialogNode* UDialogGraph::FindNextNodeByIndex(UDialogNode* CurrentNode, int32& Index)
 {
 	Index = FMath::Clamp(Index, 0, CurrentNode->OutputPins.Num() - 1);
 	if (const UDialogPin* OutPin = CurrentNode->OutputPins[Index])

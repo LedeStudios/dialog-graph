@@ -33,7 +33,7 @@ void UDialogComponent::Choice(int32 Index)
 	}
 	else
 	{
-		CurrentNode = Dialog->Graph->FindNextNode(CurrentNode.Get(), Index);
+		CurrentNode = Dialog->Graph->FindNextNodeByIndex(CurrentNode.Get(), Index);
 
 		// If the next dialogue node cannot be retrieved, stop the execution.
 		if (!CurrentNode.IsValid())

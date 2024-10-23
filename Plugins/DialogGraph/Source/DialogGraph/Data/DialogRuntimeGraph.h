@@ -59,10 +59,10 @@ public:
 	TArray<UDialogNode*> Nodes;
 
 public:
-	UPROPERTY(BlueprintCallable, Category="Dialog")
+	UFUNCTION(BlueprintCallable, Category="Dialog")
 	UDialogNode* FindNextNode(UDialogNode* CurrentNode);
 
-	UPROPERTY(BlueprintCallable, Category="Dialog")
-	UDialogNode* FindNextNode(UDialogNode* CurrentNode, int32& Index);
+	UFUNCTION(BlueprintCallable, Category="Dialog")
+	UDialogNode* FindNextNodeByIndex(UDialogNode* CurrentNode, int32& Index);
 	
 };
