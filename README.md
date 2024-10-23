@@ -11,16 +11,18 @@ By utilizing a node-based editing system similar to Blueprints, Dialog-Graph all
 This plugin is ideal for creating dynamic dialogues in NPC interactions, quest lines, and other scenarios that require dialogue presentation.
 
 # Project Features
-- [ ] Dialog Asset Types
-  - [ ] Regular Dialog
-  - [ ] Choice-based Dialog
+- [x] Dialog Asset Types
+  - [x] Regular Dialog
+  - [x] Choice-based Dialog
 
-- [ ] Dialog Events
-  - [ ] (Details are currently being planned)
+- [x] Dialog Events
+  - [x] Dialog Start Event
+  - [x] Dialog Finish Event
+  - [x] Dialog Choice Event
   
-- [ ] Node-based Editor
-  - [ ] Graph Editing Panel
-  - [ ] Node Property Settings Panel
+- [x] Node-based Editor
+  - [x] Graph Editing Panel (2024 10/23)
+  - [x] Node Property Settings Panel (2024 10/23)
   
 - [ ] Dialogue Operation Features
   - [ ] (Details are currently being planned)
