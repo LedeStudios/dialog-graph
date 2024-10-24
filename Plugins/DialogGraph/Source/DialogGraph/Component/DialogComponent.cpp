@@ -6,6 +6,8 @@
 #include "DialogGraph/Data/Dialog.h"
 #include "DialogGraph/Data/DialogRuntimeGraph.h"
 
+DEFINE_LOG_CATEGORY_STATIC(DialogComponent, Log, All);
+
 UDialogComponent::UDialogComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
@@ -24,6 +26,12 @@ void UDialogComponent::Play()
 
 void UDialogComponent::Choice(int32 Index)
 {
+	if (Dialog == nullptr)
+	{
+		UE_LOG(DialogComponent, Error, TEXT("UDialogComponent::Choice: Empty dialog."));
+		return;
+	}
+	
 	UDialogNode* PrevNode = CurrentNode.Get();
 	
 	// Find next dialog node.
@@ -70,6 +78,12 @@ void UDialogComponent::Choice(int32 Index)
 
 void UDialogComponent::Skip()
 {
+	if (Dialog == nullptr)
+	{
+		UE_LOG(DialogComponent, Error, TEXT("UDialogComponent::Skip: Empty dialog."));
+		return;
+	}
+	
 	CurrentNode.Reset();
 	Finish();
 }
