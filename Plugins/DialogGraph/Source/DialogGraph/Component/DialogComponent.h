@@ -53,13 +53,13 @@ private:
 	void Finish() const;
 
 public:
-	UPROPERTY(BlueprintAssignable, Category="Dialong")
+	UPROPERTY(BlueprintAssignable, Category="Dialog")
 	FOnDialogStartDelegate OnDialogStart;
 
-	UPROPERTY(BlueprintAssignable, Category="Dialong")
+	UPROPERTY(BlueprintAssignable, Category="Dialog")
 	FOnDialogFinishDelegate OnDialogFinish;
 
-	UPROPERTY(BlueprintAssignable, Category="Dialong")
+	UPROPERTY(BlueprintAssignable, Category="Dialog")
 	FOnDialogChoiceDelegate OnDialogChoice;
 	
 };
