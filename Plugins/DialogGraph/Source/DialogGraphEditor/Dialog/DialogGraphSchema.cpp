@@ -47,6 +47,16 @@ const FPinConnectionResponse UDialogGraphSchema::CanCreateConnection(const UEdGr
 	{
 		return FPinConnectionResponse(CONNECT_RESPONSE_DISALLOW, TEXT("Inputs can only connect to outputs"));
 	}
+
+	if (A->Direction == EGPD_Output && B->Direction == EGPD_Input)
+	{
+		return FPinConnectionResponse(CONNECT_RESPONSE_BREAK_OTHERS_A, TEXT(""));
+	}
+
+	if (A->Direction == EGPD_Input && B->Direction == EGPD_Output)
+	{
+		return FPinConnectionResponse(CONNECT_RESPONSE_BREAK_OTHERS_B, TEXT(""));
+	}
 	
 	return FPinConnectionResponse(CONNECT_RESPONSE_BREAK_OTHERS_AB, TEXT(""));
 }
