@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "DialogComponent.generated.h"
+#include "DialogPlayerComponent.generated.h"
 
 
 class UDialogNode;
@@ -15,12 +15,12 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDialogFinishDelegate, UDialog*, D
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnDialogChoiceDelegate, UDialog*, Dialog, UDialogNode*, PrevNode, UDialogNode*, CurrentNode, int32, SelectedIndex);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class DIALOGGRAPH_API UDialogComponent : public UActorComponent
+class DIALOGGRAPH_API UDialogPlayerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	UDialogComponent();
+	UDialogPlayerComponent();
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog|Data")

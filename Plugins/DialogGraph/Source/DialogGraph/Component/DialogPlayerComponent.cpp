@@ -1,30 +1,30 @@
 ﻿// Copyright Lede Studios. All Rights Reserved.
 
 
-#include "DialogComponent.h"
+#include "DialogPlayerComponent.h"
 
 #include "DialogGraph/Data/Dialog.h"
 #include "DialogGraph/Data/DialogRuntimeGraph.h"
 
 DEFINE_LOG_CATEGORY_STATIC(DialogComponent, Log, All);
 
-UDialogComponent::UDialogComponent()
+UDialogPlayerComponent::UDialogPlayerComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-void UDialogComponent::PlayFromStart()
+void UDialogPlayerComponent::PlayFromStart()
 {
 	CurrentNode.Reset();
 	Play();
 }
 
-void UDialogComponent::Play()
+void UDialogPlayerComponent::Play()
 {
 	Choice(0);
 }
 
-void UDialogComponent::Choice(int32 Index)
+void UDialogPlayerComponent::Choice(int32 Index)
 {
 	if (Dialog == nullptr)
 	{
@@ -76,7 +76,7 @@ void UDialogComponent::Choice(int32 Index)
 	}
 }
 
-void UDialogComponent::Skip()
+void UDialogPlayerComponent::Skip()
 {
 	if (Dialog == nullptr)
 	{
@@ -88,7 +88,7 @@ void UDialogComponent::Skip()
 	Finish();
 }
 
-void UDialogComponent::Finish() const
+void UDialogPlayerComponent::Finish() const
 {
 	if (OnDialogFinish.IsBound())
 	{
