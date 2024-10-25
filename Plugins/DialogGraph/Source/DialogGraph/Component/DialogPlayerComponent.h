@@ -23,7 +23,7 @@ public:
 	UDialogPlayerComponent();
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog|Data")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Dialog|Data")
 	TObjectPtr<UDialog> Dialog;
 
 public:
