@@ -40,6 +40,9 @@ public:
 	TObjectPtr<USoundBase> SoundToPlay;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
+	float WaitSeconds = 0.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	TArray<FDialogChoice> Choices;
 	
 };
