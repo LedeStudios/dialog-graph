@@ -13,7 +13,7 @@ class UDialogPlayerComponent;
 class UDialogGraph;
 
 UENUM(BlueprintType)
-enum class ECameraPositionType
+enum class ECameraPositionType : uint8
 {
 	Relative,
 	Absolute
