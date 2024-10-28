@@ -3,8 +3,11 @@
 
 #include "DialogPlayerComponent.h"
 
+#include "Components/AudioComponent.h"
 #include "DialogGraph/Data/Dialog.h"
+#include "DialogGraph/Data/DialogData.h"
 #include "DialogGraph/Data/DialogRuntimeGraph.h"
+#include "Kismet/GameplayStatics.h"
 
 DEFINE_LOG_CATEGORY_STATIC(DialogComponent, Log, All);
 
@@ -69,6 +72,9 @@ void UDialogPlayerComponent::Choice(int32 Index)
 		return;
 	}
 
+	// Play dialog actions
+	PlaySoundOnly();
+
 	// Call Choice Delegate
 	if (OnDialogChoice.IsBound())
 	{
@@ -84,12 +90,40 @@ void UDialogPlayerComponent::Skip()
 		return;
 	}
 	
-	CurrentNode.Reset();
 	Finish();
 }
 
-void UDialogPlayerComponent::Finish() const
+void UDialogPlayerComponent::PlaySoundOnly()
 {
+	// Stop Prev Sound
+	if (CurrentSound)
+	{
+		CurrentSound->Stop();
+	}
+
+	// Play Current Sound
+	if (USoundBase* Sound = CurrentNode->NodeData->SoundToPlay)
+	{
+		const FVector SoundLoc = CurrentNode->NodeData->SoundLocation;
+		CurrentSound = UGameplayStatics::SpawnSoundAtLocation(this, Sound, SoundLoc);
+		CurrentSound->Play();
+	}
+}
+
+void UDialogPlayerComponent::StopSoundOnly()
+{
+	if (CurrentSound)
+	{
+		CurrentSound->Stop();
+	}
+	CurrentSound = nullptr;
+}
+
+void UDialogPlayerComponent::Finish()
+{
+	StopSoundOnly();
+	CurrentNode.Reset();
+	
 	if (OnDialogFinish.IsBound())
 	{
 		OnDialogFinish.Broadcast(Dialog);

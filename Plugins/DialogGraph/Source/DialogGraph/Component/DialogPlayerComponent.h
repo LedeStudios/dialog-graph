@@ -32,6 +32,7 @@ public:
 
 private:
 	TWeakObjectPtr<UDialogNode> CurrentNode;
+	TObjectPtr<UAudioComponent> CurrentSound;
 
 public:
 	UDialogNode* GetCurrentNode() const { return CurrentNode.Get(); }
@@ -49,8 +50,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Dialog")
 	void Skip();
 
+	UFUNCTION(BlueprintCallable, Category="Dialog")
+	void PlaySoundOnly();
+
+	UFUNCTION(BlueprintCallable, Category="Dialog")
+	void StopSoundOnly();
+	
 private:
-	void Finish() const;
+	void Finish();
 
 public:
 	UPROPERTY(BlueprintAssignable, Category="Dialog")

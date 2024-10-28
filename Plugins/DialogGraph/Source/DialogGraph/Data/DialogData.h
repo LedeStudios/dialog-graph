@@ -36,8 +36,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	FTransform CameraOffset;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog|Sound")
 	TObjectPtr<USoundBase> SoundToPlay;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog|Sound")
+	FVector SoundLocation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	float WaitSeconds = 0.f;
