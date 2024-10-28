@@ -104,7 +104,7 @@ void UDialogPlayerComponent::PlaySoundOnly()
 	// Play Current Sound
 	if (USoundBase* Sound = CurrentNode->NodeData->SoundToPlay)
 	{
-		const FVector SoundLoc = Dialog->CameraPosition.GetLocation() + CurrentNode->NodeData->SoundLocationOffset;
+		const FVector SoundLoc = Dialog->GetCameraPosition(this).GetLocation() + CurrentNode->NodeData->SoundLocationOffset;
 		CurrentSound = UGameplayStatics::SpawnSoundAtLocation(this, Sound, SoundLoc);
 		CurrentSound->Play();
 	}
