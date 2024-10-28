@@ -13,6 +13,7 @@ class UDialog;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDialogStartDelegate, UDialog*, Dialog);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDialogFinishDelegate, UDialog*, Dialog);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnDialogChoiceDelegate, UDialog*, Dialog, UDialogNode*, PrevNode, UDialogNode*, CurrentNode, int32, SelectedIndex);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnDialogWaitFinishDelegate, UDialog*, Dialog, UDialogNode*, CurrentNode);
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class DIALOGGRAPH_API UDialogPlayerComponent : public UActorComponent
@@ -68,5 +69,8 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category="Dialog")
 	FOnDialogChoiceDelegate OnDialogChoice;
+
+	UPROPERTY(BlueprintAssignable, Category="Dialog")
+	FOnDialogWaitFinishDelegate OnDialogWaitFinish;
 	
 };
