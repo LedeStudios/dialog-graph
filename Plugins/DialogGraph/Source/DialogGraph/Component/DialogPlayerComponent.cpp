@@ -74,6 +74,7 @@ void UDialogPlayerComponent::Choice(int32 Index)
 
 	// Play dialog actions
 	PlaySoundOnly();
+	StartDialogWaiting();
 
 	// Call Choice Delegate
 	if (OnDialogChoice.IsBound())
@@ -122,11 +123,42 @@ void UDialogPlayerComponent::StopSoundOnly()
 void UDialogPlayerComponent::Finish()
 {
 	StopSoundOnly();
+	StopDialogWaiting();
+	
 	CurrentNode.Reset();
 	
 	if (OnDialogFinish.IsBound())
 	{
 		OnDialogFinish.Broadcast(Dialog);
+	}
+}
+
+void UDialogPlayerComponent::StartDialogWaiting()
+{
+	StopDialogWaiting();
+	SetComponentTickEnabled(true);
+	if (const float WaitSeconds = CurrentNode->NodeData->WaitSeconds; WaitSeconds > 0.f)
+	{
+		GetWorld()->GetTimerManager().SetTimer(WaitTimer, this, &UDialogPlayerComponent::OnWaitTimerStop, WaitSeconds, false);
+	} else
+	{
+		OnWaitTimerStop();
+	}
+}
+
+void UDialogPlayerComponent::StopDialogWaiting()
+{
+	SetComponentTickEnabled(false);
+	GetWorld()->GetTimerManager().ClearTimer(WaitTimer);
+}
+
+void UDialogPlayerComponent::OnWaitTimerStop()
+{
+	StopDialogWaiting();
+
+	if (OnDialogWaitFinish.IsBound())
+	{
+		OnDialogWaitFinish.Broadcast(Dialog, CurrentNode.Get());
 	}
 }
 

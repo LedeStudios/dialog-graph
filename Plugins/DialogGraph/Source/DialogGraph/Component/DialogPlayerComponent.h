@@ -60,6 +60,15 @@ public:
 private:
 	void Finish();
 
+private:
+	FTimerHandle WaitTimer;
+	
+	void StartDialogWaiting();
+
+	void StopDialogWaiting();
+
+	void OnWaitTimerStop();
+
 public:
 	UPROPERTY(BlueprintAssignable, Category="Dialog")
 	FOnDialogStartDelegate OnDialogStart;

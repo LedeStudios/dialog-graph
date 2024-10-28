@@ -43,7 +43,7 @@ public:
 	FVector SoundLocationOffset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
-	float WaitSeconds = 0.f;
+	float WaitSeconds = 1.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	TArray<FDialogChoice> Choices;
