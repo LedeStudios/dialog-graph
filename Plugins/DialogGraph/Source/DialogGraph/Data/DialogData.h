@@ -40,7 +40,7 @@ public:
 	TObjectPtr<USoundBase> SoundToPlay;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog|Sound")
-	FVector SoundLocation;
+	FVector SoundLocationOffset;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	float WaitSeconds = 0.f;
