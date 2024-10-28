@@ -9,7 +9,15 @@
 #include "Dialog.generated.h"
 
 
+class UDialogPlayerComponent;
 class UDialogGraph;
+
+UENUM(BlueprintType)
+enum class ECameraPositionType
+{
+	Relative,
+	Absolute
+};
 
 UCLASS(BlueprintType)
 class DIALOGGRAPH_API UDialog : public UObject
@@ -22,10 +30,17 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
 	FTransform CameraPosition;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Dialog")
+	ECameraPositionType CameraPositionType = ECameraPositionType::Relative;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Dialog")
 	TObjectPtr<UDialogGraph> Graph;
 
+public:
+	UFUNCTION(BlueprintCallable, Category="Dialog")
+	FTransform GetCameraPosition(UDialogPlayerComponent* DialogPlayer) const;
+	
 public:
 	void SetPreSaveListener(const std::function<void()>& InOnPreSaveListener) { OnPreSaveListener = InOnPreSaveListener; }
 
